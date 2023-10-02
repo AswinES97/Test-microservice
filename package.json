@@ -1,0 +1,12 @@
+{
+  "name": "test-microservice",
+  "version": "1.0.0",
+  "description": "This is a test application for testing Jenkins Kafka and K8s deployment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
