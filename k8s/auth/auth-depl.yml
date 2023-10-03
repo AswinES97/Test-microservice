@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+spec:
+  selector:
+    matchLabels:
+      app: auth-depl
+  template:
+    metadata:
+      labels:
+        app: auth-depl
+    spec:
+      containers:
+      - name: auth-depl
+        image: aswines/p2-test-microservice
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc
+spec:
+  selector:
+    app: auth-depl
+  ports:
+  - port: 3000
+    targetPort: 3000
+
