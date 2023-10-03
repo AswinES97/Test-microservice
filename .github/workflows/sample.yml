@@ -22,5 +22,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo "${{ secrets.NAME }}"
+        run: echo "$NAME"
+        env:
+          NAME: ${{ secrets.Name }}
           
