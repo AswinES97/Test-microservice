@@ -11,6 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: az aks install-cli
       - run: az aks get-credentials --resource-group k8s --name dev
       - run: kubectl apply -f ./k8s
