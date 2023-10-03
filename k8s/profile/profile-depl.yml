@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile
+spec:
+  selector:
+    matchLabels:
+      app: profile-depl
+  template:
+    metadata:
+      labels:
+        app: profile-depl
+    spec:
+      containers:
+      - name: profile-depl
+        image: aswines/p2-test-profile
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: profile-svc
+spec:
+  selector:
+    app: profile-depl
+  ports:
+  - port: 3001
+    targetPort: 3001
+
