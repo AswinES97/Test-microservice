@@ -1,12 +1,11 @@
-#
-
-name: CI
+name: auth-depl
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths: ["auth/**"]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,8 +20,14 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo "$NAME"
+      - run: cd auth && docker build -t $DOCKER_USERNAME/p2-test-auth .
+      - run: docker login -u $DOCKER_USERNAME -p DOCKER_PASSWORD
         env:
-          NAME: ${{ secrets.Name }}
-          
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push $DOCKER_USERNAME/p2-test-auth
+      - run: az aks install-cli
+      - run: az aks get-credentials --resource-group k8s --name dev
+      - run: kubectl rollout restart ./k8s/auth/auth-depl
+ 
+
