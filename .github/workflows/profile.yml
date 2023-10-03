@@ -1,0 +1,29 @@
+name: profile-depl
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "profile/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: cd profile && docker build -t aswines/p2-test-profile .
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: docker push aswines/p2-test-profile
+      - name: Azure login
+        id: login
+        uses: azure/login@v1.4.3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: az aks get-credentials --resource-group k8 --name dev
+      - run: kubectl rollout restart deployment/profile
