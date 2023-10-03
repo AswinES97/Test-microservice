@@ -34,7 +34,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - run: az aks get-credentials --resource-group k8 --name dev
-      - run: kubectl rollout restart ./k8s/auth/auth-depl.yml
+      - run: kubectl rollout restart deployment/auth
 
  
 
