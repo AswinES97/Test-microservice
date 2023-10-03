@@ -27,8 +27,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: docker push aswines/p2-test-auth
-      - run: az aks install-cli
-      - run: az aks get-credentials --resource-group k8s --name dev
-      - run: kubectl rollout restart ./k8s/auth/auth-depl
+      - name: Azure login
+        id: login
+        uses: azure/login@v1.4.3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - run: az aks get-credentials --resource-group k8 --name dev
+      - run: kubectl rollout restart ./k8s/auth/auth-depl.yml
+
  
 
