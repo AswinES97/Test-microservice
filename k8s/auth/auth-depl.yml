@@ -13,11 +13,12 @@ spec:
     spec:
       containers:
       - name: auth-depl
-        image: aswines/p2-test-microservice
+        image: aswines/p2-test-auth
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+            
 ---
 apiVersion: v1
 kind: Service
