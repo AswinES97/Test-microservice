@@ -19,4 +19,5 @@ jobs:
           
       - run: az account set --subscription 2d590b4b-3a4b-4851-acf5-886dcb61d2f5
       - run: az aks get-credentials --resource-group k8 --name dev
-      - run: kubectl apply -f k8s
+      - run: kubectl apply -f  k8s -R
+
