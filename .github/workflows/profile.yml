@@ -1,7 +1,7 @@
 name: profile-depl
 
 on:
-  pull_request:
+  push:
     branches:
       - main
     paths:
