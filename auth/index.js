@@ -1,7 +1,7 @@
 const app = require('express')()
 
 app.get((req,res)=>{
-    // res.send('auth')
+    res.send('auth')
 })
 
 app.listen(3000,()=>{
