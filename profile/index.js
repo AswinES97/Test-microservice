@@ -5,7 +5,7 @@ getConsumer().then((consumer) => {
     consumer.run({
         eachMessage: async (payload) => {
             const { message } = payload
-            console.log(message);
+            console.log(message.value.toString());
         }
     })
 })
