@@ -1,10 +1,20 @@
 const app = require('express')()
+const getConsumer = require('./subscriber/index-subscriber')
 
-app.get((req,res)=>{
+getConsumer().then((consumer) => {
+    consumer.run({
+        eachMessage: async (payload) => {
+            const { message } = payload
+            console.log(message);
+        }
+    })
+})
+
+app.get((req, res) => {
     console.log('helo');
     res.send('hi')
 })
 
-app.listen(3001,()=>{
+app.listen(3001, () => {
     console.log("profile listening on port 3001");
 })
