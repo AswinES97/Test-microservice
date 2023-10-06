@@ -7,20 +7,20 @@ getConsumer().then(async (consumer) => {
     await consumer.run({
         eachMessage: async (payload) => {
             const { message } = payload
-            console.log(message.value.toString());
+            console.log("msg from conume: ",message.value.toString());
             msg = message
         }
     })
 
     const producer = await getProducer()
     if (!msg) {
-        return producer.send({
+        return await producer.send({
             topic: "profile-response",
             messages: [{ value: Buffer.from("false")}]
         })
     }
 
-    producer.send({
+    await producer.send({
         topic: 'profile-response',
         messages: [{  value: Buffer.from("true") }]
     })
