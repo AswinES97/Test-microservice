@@ -1,13 +1,30 @@
 const app = require('express')()
 const getConsumer = require('./subscriber/index-subscriber')
+const getProducer = require('./producer/index-proudcer')
 
-getConsumer().then((consumer) => {
-    consumer.run({
+getConsumer().then(async (consumer) => {
+    let msg = null
+    await consumer.run({
         eachMessage: async (payload) => {
             const { message } = payload
             console.log(message.value.toString());
+            msg = message
         }
     })
+
+    const producer = await getProducer()
+    if (!msg) {
+        return producer.send({
+            topic: "profile-response",
+            messages: [{ value: false }]
+        })
+    }
+
+    producer.send({
+        topic: 'profile-response',
+        messages: [{ value: true }]
+    })
+
 })
 
 app.get((req, res) => {
