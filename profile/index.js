@@ -16,13 +16,13 @@ getConsumer().then(async (consumer) => {
     if (!msg) {
         return producer.send({
             topic: "profile-response",
-            messages: [{ value: false }]
+            messages: [{ value: Buffer.from("false")}]
         })
     }
 
     producer.send({
         topic: 'profile-response',
-        messages: [{ value: true }]
+        messages: [{  value: Buffer.from("true") }]
     })
 
 })
