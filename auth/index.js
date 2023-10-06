@@ -24,7 +24,7 @@ app.post('/', async (req, res) => {
             console.log(message.value.toString());
         },
     });
-    
+    console.log("result",result);
     if (result === "true")
         return res.send('user created')
 
