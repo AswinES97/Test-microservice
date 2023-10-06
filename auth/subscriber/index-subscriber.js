@@ -32,7 +32,7 @@ module.exports = getConsumer = async () => {
         brokers: ['localhost:29092'],
     });
 
-    const consumer = kafka.consumer({ groupId: 'my-group' });
+    const consumer = kafka.consumer({ groupId: 'auth' });
 
     const subscription = {
         topic: "profile-response",
