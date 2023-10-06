@@ -5,11 +5,16 @@ const getConsumer = require('./subscriber/index-subscriber')
 
 app.use(express.json())
 
+let producer
+let consumer
 
+async function intilize() {
+    producer = await getProducer()
+    consumer = await getConsumer()
+}
 
+intilize()
 app.post('/', async (req, res) => {
-    const producer = await getProducer()
-    const consumer = await getConsumer()
     let result = null
     const { name } = req.body
 
@@ -24,20 +29,19 @@ app.post('/', async (req, res) => {
             //   eachBatchAutoResolve: false,
             eachMessage: async (messagePayload) => {
                 const { topic, partition, message } = messagePayload;
-                console.log("msg from consume auth:", message);
                 result = message.value.toString()
                 console.log(message.value.toString());
+                if (result === "true")
+                    return res.send('user created')
+
+                res.status(400).send('bad request')
             },
 
         })
     } catch (error) {
         console.log("error :", error);
     }
-    console.log("result", result);
-    if (result === "true")
-        return res.send('user created')
 
-    res.status(400).send('bad request')
 })
 
 app.listen(3000, () => {
