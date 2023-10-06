@@ -14,13 +14,13 @@ getConsumer().then(async (consumer) => {
 
     const producer = await getProducer()
     if (!msg) {
-        return producer.send({
+        return await producer.send({
             topic: "profile-response",
             messages: [{ value: Buffer.from("false")}]
         })
     }
 
-    producer.send({
+    await producer.send({
         topic: 'profile-response',
         messages: [{  value: Buffer.from("true") }]
     })
