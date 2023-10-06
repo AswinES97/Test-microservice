@@ -17,7 +17,7 @@ app.post('/', async (req, res) => {
             messages: [{ value: Buffer.from(name) }]
         })
         
-        await getConsumer().then(async(consumer)=>{
+        getConsumer().then(async(consumer)=>{
             await consumer.run({
                 //   eachBatchAutoResolve: false,
                 eachMessage: async (messagePayload) => {
