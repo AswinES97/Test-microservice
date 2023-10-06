@@ -4,26 +4,27 @@ const getProducer = require('./producer/index-proudcer')
 
 getConsumer().then(async (consumer) => {
     let msg = null
+    const producer = await getProducer()
     await consumer.run({
         eachMessage: async (payload) => {
             const { message } = payload
             console.log("msg from conume: ",message.value.toString());
-            msg = message
+            msg = message.value.toString()
+
+            if (msg !== 'aswin') {
+                return await producer.send({
+                    topic: "profile-response",
+                    messages: [{ value: Buffer.from("false")}]
+                })
+            }
+        
+            await producer.send({
+                topic: 'profile-response',
+                messages: [{  value: Buffer.from("true") }]
+            })
         }
     })
 
-    const producer = await getProducer()
-    if (!msg) {
-        return await producer.send({
-            topic: "profile-response",
-            messages: [{ value: Buffer.from("false")}]
-        })
-    }
-
-    await producer.send({
-        topic: 'profile-response',
-        messages: [{  value: Buffer.from("true") }]
-    })
 
 })
 
