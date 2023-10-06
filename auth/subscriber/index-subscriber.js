@@ -35,7 +35,7 @@ module.exports = getConsumer = async () => {
     const consumer = kafka.consumer({ groupId: 'my-group' });
 
     const subscription = {
-        topic: "test",
+        topic: "profile-response",
         fromBeginning: true,
     };
 
