@@ -7,7 +7,7 @@ getConsumer().then(async (consumer) => {
     await consumer.run({
         eachMessage: async (payload) => {
             const { message } = payload
-            console.log(message.value.toString());
+            console.log("msg from conume: ",message.value.toString());
             msg = message
         }
     })
