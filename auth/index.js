@@ -10,20 +10,25 @@ app.post('/', async (req, res) => {
     const { name } = req.body
     const producer = await getProducer()
     const consumer = await getConsumer()
-
-    await producer.send({
-        topic: "username",
-        messages: [{ value: Buffer.from(name) }]
-    })
-
-    await consumer.run({
-        //   eachBatchAutoResolve: false,
-        eachMessage: async (messagePayload) => {
-            const { topic, partition, message } = messagePayload;
-            result = message.value.toString()
-            console.log(message.value.toString());
-        },
-    });
+    try {
+        
+        await producer.send({
+            topic: "username",
+            messages: [{ value: Buffer.from(name) }]
+        })
+    
+        await consumer.run({
+            //   eachBatchAutoResolve: false,
+            eachMessage: async (messagePayload) => {
+                const { topic, partition, message } = messagePayload;
+                console.log("msg from consume auth:",message);
+                result = message.value.toString()
+                console.log(message.value.toString());
+            },
+        });
+    } catch (error) {
+        console.log("error :",error);
+    }
     console.log("result",result);
     if (result === "true")
         return res.send('user created')
